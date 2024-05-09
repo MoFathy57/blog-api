@@ -13,4 +13,8 @@ class Blog extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = ['title','body','image','publish_date', 'status'];
+
+    public function getImageAttribute($value){
+        return asset('images'.'/'.$value);
+    }
 }

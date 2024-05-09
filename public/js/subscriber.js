@@ -1,6 +1,6 @@
-// add or update blog request
-function blogAction(url){
-    var formData = new FormData(document.getElementById('blogForm'));
+// add or update user request
+function subscriberAction(url){
+    var formData = new FormData(document.getElementById('subscriberForm'));
     $.ajax({
         type: 'POST',
         url: url,
@@ -10,17 +10,16 @@ function blogAction(url){
         processData: false,
         dataType: 'json',
         success: function(data){
-            $("#blogModal").modal('hide');
-            $("#blogForm").trigger("reset");
-            $('#blogTable').DataTable().draw(false);
+            $("#subscriberModal").modal('hide');
+            $("#subscriberForm").trigger("reset");
+            $('#subscriberTable').DataTable().draw(false);
         },
         error: function(data){ alert(data.responseJSON.message);},
     })
 }
 
-// get blog data
-function blogData(url){
-    var formData = new FormData(document.getElementById('blogForm'));
+// get user data
+function subscriberData(url){
     $.ajax({
         type: 'GET',
         url: url,
@@ -30,18 +29,17 @@ function blogData(url){
         dataType: 'json',
         success: function(data){
             console.log(data);
-            $("#blogModal").modal('show');
-            $("#title").val(data.title);
-            $("#body").val(data.body);
-            $("#publish-date").val(data.publish_date);
-            $("#blogid").val(data.id);
+            $("#subscriberModal").modal('show');
+            $("#name").val(data.name);
+            $("#username").val(data.username);
+            $("#subscriberid").val(data.id);
         },
         error: function(data){ alert(data.responseJSON.message);},
     })
 }
 
-// delete blog
-function deleteBlog(url){
+// delete user
+function deleteSubscriber(url){
     if(confirm("delete record?") == true){
         $.ajax({
             type: 'Delete',
@@ -51,7 +49,7 @@ function deleteBlog(url){
             processData: false,
             dataType: 'json',
             success: function(data){
-                $('#blogTable').DataTable().draw(false);
+                $('#subscriberTable').DataTable().draw(false);
             },
             error: function(data){ alert(data.responseJSON.message);},
         })
@@ -59,16 +57,14 @@ function deleteBlog(url){
 }
 
 $(function(){
-    $('#blogTable').DataTable({
+    $('#subscriberTable').DataTable({
         processing: true,
         serverSide: true,
         ajax: window.location.href,
         columns: [
             {data: 'id', name: 'id'},
-            {data: 'image', name: 'image'},
-            {data: 'title', name: 'title'},
-            {data: 'body', name: 'body'},
-            {data: 'publish_date', name: 'publish_date'},
+            {data: 'name', name: 'name'},
+            {data: 'username', name: 'username'},
             {data: 'status', name: 'status'},
             {data: 'actions', name: 'actions', orderable: false},
         ],

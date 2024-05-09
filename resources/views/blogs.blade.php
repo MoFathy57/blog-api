@@ -74,3 +74,6 @@
   </div>
 
 @endsection
+@section('js')
+    <script src="{{asset('/js/blog.js')}}"></script>
+@endsection

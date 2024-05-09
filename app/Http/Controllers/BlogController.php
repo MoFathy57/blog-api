@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\File;
 class BlogController extends Controller
 {
 
+    // web functions
     public function index(){
         if(request()->ajax()){
             return datatables()->of(Blog::select('*'))
             ->editColumn('image', function(Blog $blog) {
-                $url=asset("images/$blog->image");
-                return '<img src="'. $url.'" width="60px" />';
+                return '<img src="'. $blog->image.'" width="60px" />';
             })
             ->editColumn('status', function(Blog $blog) {
                 return $blog->status ? '<button class="btn btn-success">Active</button>': '<button class="btn btn-success">Not Active</button>';
@@ -67,5 +67,29 @@ class BlogController extends Controller
         return response()->json([
             'message' => 'Blog deleted successfully.',
         ]);
+    }
+
+    //api fumctions
+    public function posts(){
+
+        return response()->json([
+            'success' => true,
+            'posts' => Blog::latest()->get()
+        ]);
+    }
+
+    public function post($id){
+        try {
+            $blog = Blog::find($id);
+            return response()->json([
+                'success' => true,
+                'post' => $blog
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'no posts found'
+            ]);
+        }
     }
 }
